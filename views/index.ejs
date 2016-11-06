@@ -2,17 +2,21 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <title>grocery-list-starter</title>
 </head>
 <body>
   <form method = "POST" action = "/tasks">
-    <input type = "text" name = "name">
-    <input type = "text" name = "quantity">
+    <input type = "text" placeholder="Grocery Item" name="text">
+    <input type = "text" placeholder="Quantity" name="quantity">
     <input type = "submit" value= "Submit">
   </form>
   <ul><!-- [{}, {}, {}] -->
     <% tasks.forEach(function(task) { %>
           <!-- task === { _id, name, quantity } -->
-          <li> <%=task.name %><%= task.quantity %> </li>
+          <li>
+            <%= task.text %>
+            <%= task.quantity %>
+          </li>
       <% }) %>
   </ul>
 </body>

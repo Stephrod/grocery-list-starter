@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
-  'name': String,
-  'quantity': Number
+  'text': String,
+  'quantity': String
 });
 
-module.exports = mongoose.model('tasks', taskSchema)
+module.exports = mongoose.model('task', taskSchema)
 ;

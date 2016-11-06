@@ -1,36 +1,25 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const ejs = require('ejs');
-
-const app = express();
 const mongoose = require('mongoose');
+const ejs = require('ejs');
+const path = require('path');
+const bodyParser = require('body-parser');
+
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/grocery-list-starter');
 
-const TaskModel = require('./models/TaskModel.js')
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+const tasks = require('./routes/tasks.js');
+app.use('/tasks', tasks);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.get('/', (req, res, next) => {
-  TaskModel.find((err, tasks) => {
-    // tasks === [{}, {}, {}]
-    res.render('index', { tasks: tasks });
-  });
-});
-
-app.post('/tasks', (req, res, next) => {
-  var task = new TaskModel({
-    name : req.body.name,
-    quantity : req.body.quantity
-  });
-
-  task.save((err, task) => {
-    res.redirect('/');
-  });
+app.use('/*', function(req, res, next){
+  res.redirect('/tasks')
 });
 
 const port = 3000;
